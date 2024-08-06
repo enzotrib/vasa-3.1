@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# HeyGen Streaming Avatar NextJS Demo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![HeyGen Streaming Avatar NextJS Demo Screenshot](./public/demo.png)
 
-## Available Scripts
+This is a sample project and was bootstrapped using [NextJS](https://nextjs.org/).
+Feel free to play around with the existing code and please leave any feedback for the SDK [here](https://github.com/HeyGen-Official/StreamingAvatarSDK/discussions).
 
-In the project directory, you can run:
+## Getting Started FAQ
 
-### `npm start`
+### Setting up the demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Clone this repo
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. Navigate to the repo folder in your terminal
 
-### `npm test`
+3. Run `npm install` (assuming you have npm installed. If not, please follow these instructions: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Enter your HeyGen Enterprise API Token or Trial Token in the `.env` file. Replace `PLACEHOLDER-API-KEY` with your API key. This will allow the Client app to generate secure Access Tokens with which to create streaming sessions.
 
-### `npm run build`
+   You can retrieve either the API Key or Trial Token by logging in to HeyGen and navigating to this page in your settings: [https://app.heygen.com/settings?nav=API]. NOTE: use the trial token if you don't have an enterprise API token yet.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. (Optional) If you would like to use the OpenAI features, enter your OpenAI Api Key in the `.env` file.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+6. Run `npm run dev`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Difference between Trial Token and Enterprise API Token
 
-### `npm run eject`
+The HeyGen Trial Token is available to all users, not just Enterprise users, and allows for testing of the Streaming API, as well as other HeyGen API endpoints.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Each Trial Token is limited to 3 concurrent streaming sessions. However, every streaming session you create with the Trial Token is free of charge, no matter how many tasks are sent to the avatar. Please note that streaming sessions will automatically close after 10 minutes of no tasks sent.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If you do not 'close' the streaming sessions and try to open more than 3, you will encounter errors including stuttering and freezing of the Streaming Avatar. Please endeavor to only have 3 sessions open at any time while you are testing the Streaming Avatar API with your Trial Token.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Starting sessions
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+NOTE: Make sure you have enter your token into the `.env` file and run `npm run dev`.
 
-## Learn More
+To start your 'session' with a Streaming Avatar, first click the 'start' button. If your HeyGen API key is entered into the Server's .env file, then you should see our demo Streaming Avatar (Monica!) appear.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+After you see Monica appear on the screen, you can enter text into the input labeled 'Repeat', and then hit Enter. The Streaming Avatar will say the text you enter.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+If you want to see a different Avatar or try a different voice, you can close the session and enter the IDs and then 'start' the session again. Please see below for information on where to retrieve different Avatar and voice IDs that you can use.
 
-### Code Splitting
+### Connecting to OpenAI
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+A common use case for a Streaming Avatar is to use it as the 'face' of an LLM that users can interact with. In this demo we have included functionality to showcase this by both accepting user input via voice (using OpenAI's Whisper library) and also sending that input to an OpenAI LLM model (using their Chat Completions endpoint).
 
-### Analyzing the Bundle Size
+Both of these features of this demo require an OpenAI API Key. If you do not have a paid OpenAI account, you can learn more on their website: [https://openai.com/index/openai-api/]
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Without an OpenAI API Key, this functionality will not work, and the Streaming Avatar will only be able to repeat text input that you provide, and not demonstrate being the 'face' of an LLM. Regardless, this demo is meant to demonstrate what kinds of apps and experiences you can build with our Streaming Avatar SDK, so you can code your own connection to a different LLM if you so choose.
 
-### Making a Progressive Web App
+To add your Open AI API Key, fill copy it to the `OPENAI_API_KEY` and `NEXT_PUBLIC_OPENAI_API_KEY` variables in the `.env` file.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### How does the integration with OpenAI / ChatGPT work?
 
-### Advanced Configuration
+In this demo, we are calling the Chat Completions API from OpenAI in order to come up with some response to user input. You can see the relevant code in components/StreamingAvatar.tsx.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+In the initialMessages parameter, you can replace the content of the 'system' message with whatever 'knowledge base' or context that you would like the GPT-4o model to reply to the user's input with.
 
-### Deployment
+You can explore this API and the different parameters and models available here: [https://platform.openai.com/docs/guides/text-generation/chat-completions-api]
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Which Avatars can I use with this project?
 
-### `npm run build` fails to minify
+By default, there are several Public Avatars that can be used in Streaming. (AKA Streaming Avatars.) You can find the Avatar IDs for these Public Avatars by navigating to [app.heygen.com/streaming-avatar](https://app.heygen.com/streaming-avatar) and clicking 'Select Avatar' and copying the avatar id.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In order to use a private Avatar created under your own account in Streaming, it must be upgraded to be a Streaming Avatar. Only 1. Finetune Instant Avatars and 2. Studio Avatars are able to be upgraded to Streaming Avatars. This upgrade is a one-time fee and can be purchased by navigating to [app.heygen.com/streaming-avatar] and clicking 'Select Avatar'.
+
+Please note that Photo Avatars are not compatible with Streaming and cannot be used.
+
+### Which voices can I use with my Streaming Avatar?
+
+Most of HeyGen's AI Voices can be used with the Streaming API. To find the Voice IDs that you can use, please use the List Voices v2 endpoint from HeyGen: [https://docs.heygen.com/reference/list-voices-v2]
+
+Please note that for voices that support Emotions, such as Christine and Tarquin, you need to pass in the Emotion string in the Voice Setting parameter: [https://docs.heygen.com/reference/new-session-copy#voicesetting]
+
+You can also set the speed at which the Streaming Avatar speaks by passing in a Rate in the Voice Setting.
+
+### Where can I read more about enterprise-level usage of the Streaming API?
+
+Please read our Streaming Avatar 101 article for more information on pricing and how to increase your concurrent session limit: https://help.heygen.com/en/articles/9182113-streaming-avatar-101-your-ultimate-guide
